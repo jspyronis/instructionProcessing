@@ -26,7 +26,7 @@ public class InstructionMessageProducer implements Runnable
     public void run()
     {
         //produce 100 instruction messages
-        for (int i = 0; i < 100; i++)
+        for (int i = 1; i < 100; i++)
         {
             InstructionMessage instructionMessage = new InstructionMessage();
             instructionMessage.setInstructionType(i);

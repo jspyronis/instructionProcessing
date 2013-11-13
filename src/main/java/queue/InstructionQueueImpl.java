@@ -56,7 +56,7 @@ public class InstructionQueueImpl extends PriorityBlockingQueue implements Instr
     @Override
     public Object takeFrontInstructionMessage() throws InterruptedException
     {
-        return super.poll();
+        return super.take();
     }
 
     @Override
