@@ -2,6 +2,7 @@ package queue;
 
 import beans.InstructionMessage;
 import compare.InstructionMessageByTypeComparator;
+import exceptions.InvalidMessageException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,12 +54,11 @@ public class InstructionQueueImplTest
     }
 
     @Test
-    public void testGetNumberOfInstructionMessages()
+    public void testGetNumberOfInstructionMessages() throws InvalidMessageException
     {
         queue.addInstructionMessage(instructionMessage);
         queue.addInstructionMessage(instructionMessage2);
         assertEquals(2, queue.getNumberOfInstructionMessages());
-
     }
 
     @Test

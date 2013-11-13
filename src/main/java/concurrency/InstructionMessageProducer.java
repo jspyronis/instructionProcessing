@@ -2,6 +2,7 @@ package concurrency;
 
 import beans.InstructionMessage;
 import compare.InstructionMessageByTypeComparator;
+import exceptions.InvalidMessageException;
 import queue.InstructionQueue;
 import queue.InstructionQueueImpl;
 
@@ -34,7 +35,14 @@ public class InstructionMessageProducer implements Runnable
             instructionMessage.setProductCode(i);
             instructionMessage.setTimeStamp(i);
 
-            queue.addInstructionMessage(instructionMessage);
+            try
+            {
+                queue.addInstructionMessage(instructionMessage);
+            }
+            catch (InvalidMessageException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             System.out.println("Produced --- >"+ instructionMessage.getInstructionType() + " instruction message");
         }
     }

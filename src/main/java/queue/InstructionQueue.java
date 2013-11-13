@@ -1,6 +1,7 @@
 package queue;
 
 import beans.InstructionMessage;
+import exceptions.InvalidMessageException;
 
 /**
  * @author John S. (jspyronis@tacitknowledge.com)
@@ -10,7 +11,7 @@ import beans.InstructionMessage;
 public interface InstructionQueue<I>
 {
     public int getNumberOfInstructionMessages();
-    public void addInstructionMessage(InstructionMessage message);
+    public void addInstructionMessage(InstructionMessage message) throws InvalidMessageException;
     public void removeInstructionMessage(InstructionMessage message);
     public InstructionMessage getFrontInstructionMessage();
     public Object takeFrontInstructionMessage() throws InterruptedException;

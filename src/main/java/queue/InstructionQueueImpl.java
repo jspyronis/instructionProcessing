@@ -1,6 +1,8 @@
 package queue;
 
 import beans.InstructionMessage;
+import exceptions.InvalidMessageException;
+import queue.validate.InstructionQueueMessageValidation;
 
 import java.util.Comparator;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -25,8 +27,17 @@ public class InstructionQueueImpl extends PriorityBlockingQueue implements Instr
     }
 
     @Override
-    public void addInstructionMessage(InstructionMessage instructionMessage)
+    public void addInstructionMessage(InstructionMessage instructionMessage) throws InvalidMessageException
     {
+        // validation of instruction messages here
+        InstructionQueueMessageValidation instructionQueueMessageValidation = new InstructionQueueMessageValidation(instructionMessage);
+
+        instructionQueueMessageValidation.validateInstructionType();
+        instructionQueueMessageValidation.validateProductCode();
+        instructionQueueMessageValidation.validateQuantity();
+        instructionQueueMessageValidation.validateUom();
+        instructionQueueMessageValidation.validateTimeStamp();
+
         super.add(instructionMessage);
     }
 
