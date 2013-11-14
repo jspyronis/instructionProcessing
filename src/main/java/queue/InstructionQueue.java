@@ -10,7 +10,7 @@ import exceptions.InvalidMessageException;
  */
 public interface InstructionQueue<I>
 {
-    public int getNumberOfInstructionMessages();
+    public Integer getNumberOfInstructionMessages();
     public void addInstructionMessage(InstructionMessage message) throws InvalidMessageException;
     public void removeInstructionMessage(InstructionMessage message);
     public InstructionMessage getFrontInstructionMessage();

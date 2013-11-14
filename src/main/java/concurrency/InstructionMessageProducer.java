@@ -6,7 +6,8 @@ import exceptions.InvalidMessageException;
 import queue.InstructionQueue;
 import queue.InstructionQueueImpl;
 
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author John S. (jspyronis@tacitknowledge.com)
@@ -15,31 +16,33 @@ import java.util.Comparator;
  */
 public class InstructionMessageProducer implements Runnable
 {
-    Comparator comparator = new InstructionMessageByTypeComparator();
-    InstructionQueue<InstructionMessage> queue = new InstructionQueueImpl(5, comparator);
+    InstructionQueue<InstructionMessage> queue = new InstructionQueueImpl(10, new InstructionMessageByTypeComparator());
+    List<InstructionMessage> instructionMessageList = new ArrayList<InstructionMessage>();
+    private static  int counter = 0;
+    private final String name;
 
-    public InstructionMessageProducer(InstructionQueue queue){
+    public InstructionMessageProducer(InstructionQueue queue, List<InstructionMessage> instructionMessageList){
         this.queue = queue;
+        this.instructionMessageList = instructionMessageList;
+        name = "Producer " + ++counter;
     }
 
     @Override
     public void run()
     {
-        //produce 100 instruction messages
-        for (int i = 1; i < 100; i++)
+        for (InstructionMessage instructionMessage : instructionMessageList)
         {
-            InstructionMessage instructionMessage = new InstructionMessage();
-            instructionMessage.setInstructionType(i);
-            instructionMessage.setQuantity(i);
-            instructionMessage.setUom(i);
-            instructionMessage.setProductCode(i);
-            instructionMessage.setTimeStamp(i);
-
             try
             {
                 queue.addInstructionMessage(instructionMessage);
+                System.out.println(name + " size of queue is  : "  + queue.getNumberOfInstructionMessages());
+                Thread.sleep(200);
             }
             catch (InvalidMessageException e)
+            {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            catch (InterruptedException e)
             {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }

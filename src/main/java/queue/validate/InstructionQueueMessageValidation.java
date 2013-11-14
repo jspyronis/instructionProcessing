@@ -44,7 +44,7 @@ public class InstructionQueueMessageValidation
     public void validateUom() throws InvalidMessageException
     {
         int uom = instructionMessage.getUom();
-        if (uom < 0 && uom >= 256)
+        if (uom < 0 || uom >= 256)
         {
             throw new InvalidMessageException("Invalid UOM - value must be more or equal than 0 and less than 256");
         }
@@ -57,5 +57,6 @@ public class InstructionQueueMessageValidation
             throw new InvalidMessageException("Invalid timestamp - value must be more than 0");
         }
     }
+
 
 }

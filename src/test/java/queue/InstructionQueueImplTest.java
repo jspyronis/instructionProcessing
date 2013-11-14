@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import java.util.Comparator;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertSame;
+import static junit.framework.Assert.*;
 
 /**
  * @author John S. (jspyronis@tacitknowledge.com)
@@ -58,7 +57,7 @@ public class InstructionQueueImplTest
     {
         queue.addInstructionMessage(instructionMessage);
         queue.addInstructionMessage(instructionMessage2);
-        assertEquals(2, queue.getNumberOfInstructionMessages());
+        assertEquals(Integer.valueOf(2) , queue.getNumberOfInstructionMessages());
     }
 
     @Test
@@ -79,7 +78,7 @@ public class InstructionQueueImplTest
 
         queue.removeInstructionMessage(instructionMessage2);
 
-        assertEquals(1, queue.getNumberOfInstructionMessages());
+        assertEquals(Integer.valueOf(1), queue.getNumberOfInstructionMessages());
 
         InstructionMessage newInstructionMessage = queue.getFrontInstructionMessage();
         assertSame(newInstructionMessage , instructionMessage);
@@ -106,12 +105,12 @@ public class InstructionQueueImplTest
         queue.addInstructionMessage(instructionMessage2);
 
         queue.takeFrontInstructionMessage();
-        assertEquals(2, queue.getNumberOfInstructionMessages());
+        assertEquals(Integer.valueOf(2), queue.getNumberOfInstructionMessages());
         InstructionMessage expectedInstructionMessage = queue.getFrontInstructionMessage();
         assertSame(expectedInstructionMessage, instructionMessage2);
 
         queue.takeFrontInstructionMessage();
-        assertEquals(1, queue.getNumberOfInstructionMessages());
+        assertEquals(Integer.valueOf(1), queue.getNumberOfInstructionMessages());
         expectedInstructionMessage = queue.getFrontInstructionMessage();
         assertSame(expectedInstructionMessage, instructionMessage3);
     }
@@ -119,7 +118,8 @@ public class InstructionQueueImplTest
     @Test
     public void testIsInstructionQueueEmpty() throws Exception
     {
-        assertEquals(0, queue.getNumberOfInstructionMessages());
+        assertTrue(queue.isInstructionQueueEmpty());
         queue.addInstructionMessage(instructionMessage);
+        assertFalse(queue.isInstructionQueueEmpty());
     }
 }

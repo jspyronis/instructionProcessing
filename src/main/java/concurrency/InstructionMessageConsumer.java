@@ -22,12 +22,16 @@ public class InstructionMessageConsumer implements Runnable{
 
     @Override
     public void run() {
-        try{
+        try
+        {
             while(true)
             {
-                InstructionMessage instructionMessage = (InstructionMessage) queue.takeFrontInstructionMessage();
-                System.out.println(name + " ........ " + instructionMessage.getInstructionType() + " instruction message, Queue size is : " + queue.getNumberOfInstructionMessages());
-                Thread.sleep(200);
+                //InstructionMessage instructionMessage = queue.getFrontInstructionMessage();
+
+                //Thread.sleep(200);
+                queue.takeFrontInstructionMessage();
+                System.out.println(name + " size of queue is  : "  + queue.getNumberOfInstructionMessages());
+
             }
         }
         catch(InterruptedException e)

@@ -21,7 +21,7 @@ public class InstructionQueueImpl extends PriorityBlockingQueue implements Instr
     }
 
     @Override
-    public int getNumberOfInstructionMessages()
+    public Integer getNumberOfInstructionMessages()
     {
         return super.size();
     }
@@ -38,7 +38,8 @@ public class InstructionQueueImpl extends PriorityBlockingQueue implements Instr
         instructionQueueMessageValidation.validateUom();
         instructionQueueMessageValidation.validateTimeStamp();
 
-        super.add(instructionMessage);
+        //super.add(instructionMessage);
+        super.put(instructionMessage);
     }
 
     @Override
