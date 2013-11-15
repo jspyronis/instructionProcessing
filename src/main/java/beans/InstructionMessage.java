@@ -13,6 +13,16 @@ public class InstructionMessage
     private Integer uom;
     private Integer timeStamp;
 
+    public boolean isValid()
+    {
+        final boolean isValid = (0 < instructionType && instructionType < 100) &&
+                (0 < productCode) &&
+                (0 < quantity) &&
+                (0 <= uom && uom < 256) &&
+                (0 < timeStamp);
+        return isValid;
+    }
+
     public Integer getInstructionType()
     {
         return instructionType;

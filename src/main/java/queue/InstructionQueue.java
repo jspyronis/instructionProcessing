@@ -11,7 +11,7 @@ import exceptions.InvalidMessageException;
 public interface InstructionQueue<I>
 {
     public Integer getNumberOfInstructionMessages();
-    public void addInstructionMessage(InstructionMessage message) throws InvalidMessageException;
+    public boolean addInstructionMessage(InstructionMessage message) throws InvalidMessageException;
     public void removeInstructionMessage(InstructionMessage message);
     public InstructionMessage getFrontInstructionMessage();
     public Object takeFrontInstructionMessage() throws InterruptedException;

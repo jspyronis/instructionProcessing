@@ -27,19 +27,14 @@ public class InstructionQueueImpl extends PriorityBlockingQueue implements Instr
     }
 
     @Override
-    public void addInstructionMessage(InstructionMessage instructionMessage) throws InvalidMessageException
-    {
-        // validation of instruction messages here
-        InstructionQueueMessageValidation instructionQueueMessageValidation = new InstructionQueueMessageValidation(instructionMessage);
+    public boolean addInstructionMessage(InstructionMessage instructionMessage) throws InvalidMessageException {
 
-        instructionQueueMessageValidation.validateInstructionType();
-        instructionQueueMessageValidation.validateProductCode();
-        instructionQueueMessageValidation.validateQuantity();
-        instructionQueueMessageValidation.validateUom();
-        instructionQueueMessageValidation.validateTimeStamp();
+        if (!instructionMessage.isValid())
+        {
+            throw new InvalidMessageException(instructionMessage.toString());
+        }
 
-        //super.add(instructionMessage);
-        super.put(instructionMessage);
+        return super.add(instructionMessage);
     }
 
     @Override

@@ -3,6 +3,7 @@ import compare.InstructionMessageByTypeComparator;
 import concurrency.InstructionMessageConsumer;
 import concurrency.InstructionMessageProducer;
 import exceptions.InvalidMessageException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import queue.InstructionQueue;
@@ -25,15 +26,12 @@ public class IntegrationTest
     InstructionQueue queue = new InstructionQueueImpl(10, comparator);
 
     InstructionMessageProducer producer;
-    InstructionMessageProducer producer2;
     InstructionMessageConsumer consumer;
-    InstructionMessageConsumer consumer2;
-    InstructionMessageConsumer consumer3;
 
     @Before
     public void setUp()
     {
-        for (int i = 1; i < 50 ;  i++)
+        for (int i = 1; i < 20 ;  i++)
         {
             InstructionMessage instructionMessage = new InstructionMessage();
             instructionMessage.setInstructionType(i);
@@ -45,37 +43,41 @@ public class IntegrationTest
             instructionMessageList.add(instructionMessage);
         }
 
-        System.out.print("Size.... " + instructionMessageList.size()) ;
-
         producer = new InstructionMessageProducer(queue, instructionMessageList);
-        producer2 = new InstructionMessageProducer(queue, instructionMessageList);
-
         consumer = new InstructionMessageConsumer(queue);
-        consumer2 =new InstructionMessageConsumer(queue);
-        consumer3 =new InstructionMessageConsumer(queue);
     }
 
     @Test
-    public void test() throws InvalidMessageException, InterruptedException
+    public void test()
     {
-        //InstructionQueueMessageValidation validation = new InstructionQueueMessageValidation(instructionMessage);
+        Runnable rP = new Thread(producer);
+        rP.run();
 
-        producer.run();
-        consumer.run();
-        consumer2.run();
-        consumer3.run();
-        producer2.run();
+        Runnable rC = new Thread(consumer);
+        rC.run();
 
-//        new Thread(producer).start();
-//        new Thread(consumer).start();
-//        new Thread(consumer2).start();
-//        new Thread(producer2).start();
-//        new Thread(consumer3).start();
+        consumer.abort();
+        System.out.println("Aborting..");
+    }
 
-//        queue.addInstructionMessage(instructionMessage);
-//
-//        queue.takeFrontInstructionMessage();
 
+    //consumerShouldReadAllTheAvailableElements
+    /*
+    1) Know how many elements (N) you are going to insert
+    2) Insert N elements into queue
+    3) Start reading elements from queue
+    4) Stop reading elements once you read N elements
+    5) Verify queue is empty
+     */
+
+//    Verify the order of the retrieved elements (This is other test)
+//    Verify retrieved elements are the inserted (This is other test)
+
+
+    @After
+    public void tearDown()
+    {
+        System.out.println("The end..");
     }
 
 

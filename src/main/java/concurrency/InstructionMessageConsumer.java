@@ -12,31 +12,42 @@ import queue.InstructionQueue;
 public class InstructionMessageConsumer implements Runnable{
 
     private InstructionQueue<InstructionMessage> queue;
-    private final String name;
-    private static  int counter = 0;
+    private boolean stop;
 
-    public InstructionMessageConsumer(InstructionQueue<InstructionMessage> queue){
+    public InstructionMessageConsumer(InstructionQueue<InstructionMessage> queue)
+    {
         this.queue = queue;
-        name = "Consumer " + ++counter;
+        stop = false;
     }
 
-    @Override
-    public void run() {
-        try
+    public void run()
+    {
+        while(!stop)
         {
-            while(true)
-            {
-                //InstructionMessage instructionMessage = queue.getFrontInstructionMessage();
-
-                //Thread.sleep(200);
+            //Thread.sleep(200);
+            try {
+                System.out.println("Consuming...");
                 queue.takeFrontInstructionMessage();
-                System.out.println(name + " size of queue is  : "  + queue.getNumberOfInstructionMessages());
-
             }
-        }
-        catch(InterruptedException e)
-        {
-            e.printStackTrace();
+            catch (InterruptedException e)
+            {
+                System.out.print("Interrupted exception....");
+            }
+
         }
     }
+
+    public void abort()
+    {
+        System.out.println("Calling aborted...");
+        stop = true;
+
+    }
+
+
+
+
+
+
+
 }

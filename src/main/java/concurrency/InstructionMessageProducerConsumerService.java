@@ -46,18 +46,14 @@ public class InstructionMessageProducerConsumerService
         List<InstructionMessage> instructionMessageList = generateInstructionMessages();
 
         InstructionMessageProducer producer = new InstructionMessageProducer(queue, instructionMessageList);
-        InstructionMessageProducer producer2 = new InstructionMessageProducer(queue, instructionMessageList);
-
         InstructionMessageConsumer consumer = new InstructionMessageConsumer(queue);
-        InstructionMessageConsumer consumer2 = new InstructionMessageConsumer(queue);
-        InstructionMessageConsumer consumer3 = new InstructionMessageConsumer(queue);
-
-        new Thread(producer).start();
-        //new Thread(producer2).start();
-        new Thread(consumer).start();
-        new Thread(consumer2).start();
-        new Thread(consumer3).start();
 
         System.out.println("Producer and Consumer has been started");
+
+        new Thread(producer).start();
+        new Thread(consumer).start();
+
+
+
     }
 }
