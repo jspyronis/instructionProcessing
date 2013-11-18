@@ -1,17 +1,12 @@
 package queue.validate;
 
 import beans.InstructionMessage;
-import compare.InstructionMessageByTypeComparator;
-import exceptions.InvalidMessageException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
-import queue.InstructionQueue;
-import queue.InstructionQueueImpl;
 
-import java.util.Comparator;
+import static junit.framework.Assert.assertFalse;
 
-/**
+/** Unit test class for validating instruction message to be inserted in a queue..
  * @author John S. (jspyronis@tacitknowledge.com)
  *         Date: 13/11/2013
  *         Time: 17:30
@@ -20,70 +15,70 @@ public class InstructionQueueMessageValidationTest
 {
 
     private InstructionMessage instructionMessage;
-    private static final Comparator<InstructionMessage> comparator = new InstructionMessageByTypeComparator();
-    private InstructionQueue queue = new InstructionQueueImpl(5, comparator);
 
     @Before
     public void setUp()
     {
-        // All valid properties for instruction message...
-        instructionMessage = new InstructionMessage();
-        instructionMessage.setInstructionType(Matchers.anyInt());
-        instructionMessage.setProductCode(Matchers.anyInt());
-        instructionMessage.setQuantity(Matchers.anyInt());
-        instructionMessage.setUom(Matchers.anyInt());
-        instructionMessage.setTimeStamp(Matchers.anyInt());
+        instructionMessage = new InstructionMessage(1, 1, 1, 1, 1);
     }
 
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateInstructionType1() throws Exception
+    @Test
+    public void testValidateInstructionTypeOutOfBounds()
     {
-        instructionMessage.setInstructionType(-1);
-        queue.addInstructionMessage(instructionMessage);
+        instructionMessage = new InstructionMessage(0, 1, 1, 1, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(-1, 1, 1, 1, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(100, 1, 1, 1, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(101, 1, 1, 1, 1);
+        assertFalse(instructionMessage.isValid());
     }
 
-
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateInstructionType2() throws Exception
+    @Test
+    public void testValidateProductCodeOutOfBounds()
     {
-        instructionMessage.setInstructionType(103);
-        queue.addInstructionMessage(instructionMessage);
+        instructionMessage = new InstructionMessage(1, 0, 1, 1, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(1, -1, 1, 1, 1);
+        assertFalse(instructionMessage.isValid());
     }
 
-
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateInstructionType3() throws Exception
+    @Test
+    public void testValidateQuantityOutOfBounds()
     {
-        instructionMessage.setInstructionType(-1);
-        queue.addInstructionMessage(instructionMessage);
+        instructionMessage = new InstructionMessage(1, 1, 0, 1, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(1, 1, -1, 1, 1);
+        assertFalse(instructionMessage.isValid());
     }
 
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateProductCode() throws Exception
+    @Test
+    public void testValidateUomOutOfBounds()
     {
-        instructionMessage.setProductCode(-2);
-        queue.addInstructionMessage(instructionMessage);
+        instructionMessage = new InstructionMessage(1, 1, 1, -1, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(1, 1, 1, 256, 1);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(1, 1, 1, 257, 1);
+        assertFalse(instructionMessage.isValid());
     }
 
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateQuantity() throws Exception
+    @Test
+    public void testValidateTimeStampOutOfBounds()
     {
-        instructionMessage.setQuantity(-1);
-        queue.addInstructionMessage(instructionMessage);
+        instructionMessage = new InstructionMessage(1, 1, 1, 1, 0);
+        assertFalse(instructionMessage.isValid());
+
+        instructionMessage = new InstructionMessage(1, 1, 1, 1, -1);
+        assertFalse(instructionMessage.isValid());
     }
 
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateUom() throws Exception
-    {
-        instructionMessage.setUom(280);
-        queue.addInstructionMessage(instructionMessage);
-    }
-
-    @Test(expected = InvalidMessageException.class)
-    public void testValidateTimeStamp() throws Exception
-    {
-        instructionMessage.setTimeStamp(-2);
-        queue.addInstructionMessage(instructionMessage);
-
-    }
 }

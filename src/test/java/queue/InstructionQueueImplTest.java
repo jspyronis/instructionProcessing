@@ -15,6 +15,7 @@ import static junit.framework.Assert.*;
  *         Date: 13/11/2013
  *         Time: 16:44
  */
+
 public class InstructionQueueImplTest
 {
     private InstructionMessage instructionMessage;
@@ -26,27 +27,9 @@ public class InstructionQueueImplTest
     @Before
     public void setUp() throws Exception
     {
-        instructionMessage = new InstructionMessage();
-        instructionMessage.setInstructionType(1);
-        instructionMessage.setProductCode(1);
-        instructionMessage.setQuantity(1);
-        instructionMessage.setUom(1);
-        instructionMessage.setTimeStamp(1);
-
-        instructionMessage2 = new InstructionMessage();
-        instructionMessage2.setInstructionType(2);
-        instructionMessage2.setProductCode(2);
-        instructionMessage2.setQuantity(2);
-        instructionMessage2.setUom(2);
-        instructionMessage2.setTimeStamp(2);
-
-        instructionMessage3 = new InstructionMessage();
-        instructionMessage3.setInstructionType(3);
-        instructionMessage3.setProductCode(3);
-        instructionMessage3.setQuantity(3);
-        instructionMessage3.setUom(3);
-        instructionMessage3.setTimeStamp(3);
-
+        instructionMessage = new InstructionMessage(1, 1, 1, 1, 1);
+        instructionMessage2 = new InstructionMessage(2, 2, 2, 2, 2);
+        instructionMessage3 = new InstructionMessage(3, 3, 3, 3, 3);
 
         Comparator comparator = new InstructionMessageByTypeComparator();
         queue = new InstructionQueueImpl(10, comparator);

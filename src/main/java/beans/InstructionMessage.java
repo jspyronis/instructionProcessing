@@ -13,6 +13,17 @@ public class InstructionMessage
     private Integer uom;
     private Integer timeStamp;
 
+    public InstructionMessage(){}
+
+    public InstructionMessage(Integer instructionType, Integer productCode, Integer quantity, Integer uom, Integer timeStamp)
+    {
+        this.instructionType = instructionType;
+        this.productCode = productCode;
+        this.quantity = quantity;
+        this.uom = uom;
+        this.timeStamp = timeStamp;
+    }
+
     public boolean isValid()
     {
         final boolean isValid = (0 < instructionType && instructionType < 100) &&
